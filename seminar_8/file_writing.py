@@ -42,7 +42,17 @@ def get_info():
             print(err)
             continue
 
-    last_name = "Иванов"
+    is_valid_last_name = False
+    while not is_valid_last_name:
+        try:
+            last_name = input("Введите фамилию: ")
+            if len(last_name) < 2:
+                raise NameError("Не валидное имя")
+            else:
+                is_valid_last_name = True
+        except NameError as err:
+            print(err)
+            continue
 
     is_valid_phone = False
     while not is_valid_phone:
@@ -119,10 +129,24 @@ def change_info(file_name, num):
                         else:
                             is_valid_first_name = True
                     except NameError as err:
+                        # print(err)
+                        continue
+
+                is_valid_last_name = False
+                while not is_valid_last_name:
+                    try:
+                        last_name = input("Введите новую фамилию: ")
+                        if len(last_name) < 2:
+                            raise NameError("Не валидное имя")
+                        else:
+                            is_valid_last_name = True
+                    except NameError as err:
                         print(err)
                         continue
+                
                 el["Имя"] = first_name
-                print(el)
+                el["Фамилия"] = last_name
+                # print(el)
             obj.append(el)
         f_writer.writerows(obj)
 
