@@ -31,23 +31,19 @@ class NameError(Exception):
 
 def get_info():
     is_valid_first_name = False
-    while not is_valid_first_name:
+    is_valid_last_name = False
+    while not is_valid_first_name or not is_valid_last_name:
         try:
             first_name = input("Введите имя: ")
             if len(first_name) < 2:
                 raise NameError("Не валидное имя")
             else:
                 is_valid_first_name = True
-        except NameError as err:
-            print(err)
-            continue
 
-    is_valid_last_name = False
-    while not is_valid_last_name:
-        try:
             last_name = input("Введите фамилию: ")
+
             if len(last_name) < 2:
-                raise NameError("Не валидное имя")
+                raise NameError("Не валиднная фамилия")
             else:
                 is_valid_last_name = True
         except NameError as err:
@@ -143,7 +139,7 @@ def change_info(file_name, num):
                     except NameError as err:
                         print(err)
                         continue
-                
+
                 el["Имя"] = first_name
                 el["Фамилия"] = last_name
                 # print(el)
@@ -151,12 +147,25 @@ def change_info(file_name, num):
         f_writer.writerows(obj)
 
 
+def import_info(file_name, second_file_name, num):
+    res = read_file(file_name)
+    if not exists(second_file_name):
+        create_file(second_file_name)
+    for el in res:
+        if el["Телефон"] == str(num):
+            el = [el["Имя"], el["Фамилия"], el["Телефон"]]
+            write_file(second_file_name, el)
+
+
 file_name = "phone.csv"
+second_file_name = "second_phone.csv"
 
 
 def main():
     while True:
-        command = input("Введите команду: ")
+        command = input(
+            "Введите команду\n (q - выход, w - записать, r - прочитать, d - удалить, c - изменить, i - копировать в другой справочник): "
+        )
         if command == "q":
             break
         elif command == "w":
@@ -172,8 +181,11 @@ def main():
             num = input("Введите номер удаляемого телефона: ")
             del_info(file_name, num)
         elif command == "c":  # изменения данных
-            num = input("Введите номер телефона: ")
+            num = input("Введите номер телефона для изменения данных: ")
             change_info(file_name, num)
+        elif command == "i":  # импорт данных
+            num = input("Какой номер телефона перенесем во второй справочник?: ")
+            import_info(file_name, second_file_name, num)
 
 
 main()
