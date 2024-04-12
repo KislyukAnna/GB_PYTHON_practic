@@ -147,7 +147,7 @@ def change_info(file_name, num):
         f_writer.writerows(obj)
 
 
-def import_info(file_name, second_file_name, num):
+def export_info(file_name, second_file_name, num):
     res = read_file(file_name)
     if not exists(second_file_name):
         create_file(second_file_name)
@@ -168,7 +168,7 @@ second_file_name = "second_phone.csv"
 def main():
     while True:
         command = input(
-            "Введите команду\n (q - выход, w - записать, r - прочитать, d - удалить, c - изменить, i - копировать в другой справочник): "
+            "Введите команду\n (q - выход, w - записать, r - прочитать, d - удалить, c - изменить, e - копировать в другой справочник): "
         )
         if command == "q":
             break
@@ -187,9 +187,9 @@ def main():
         elif command == "c":  # изменения данных
             num = input("Введите номер телефона для изменения данных: ")
             change_info(file_name, num)
-        elif command == "i":  # импорт данных
+        elif command == "e":  # експорт данных
             num = input("Какой номер телефона перенесем во второй справочник?: ")
-            import_info(file_name, second_file_name, num)
+            export_info(file_name, second_file_name, num)
 
 
 main()
