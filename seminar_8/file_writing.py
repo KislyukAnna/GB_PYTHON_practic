@@ -151,10 +151,14 @@ def import_info(file_name, second_file_name, num):
     res = read_file(file_name)
     if not exists(second_file_name):
         create_file(second_file_name)
+    cnt = 0
     for el in res:
         if el["Телефон"] == str(num):
+            cnt = 1
             el = [el["Имя"], el["Фамилия"], el["Телефон"]]
             write_file(second_file_name, el)
+    if cnt == 0:
+        print("Такого номера нет в справочнике")
 
 
 file_name = "phone.csv"
